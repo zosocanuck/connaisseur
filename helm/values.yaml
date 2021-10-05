@@ -1,7 +1,7 @@
 # configure Connaisseur deployment
 deployment:
   replicasCount: 3
-  image: securesystemsengineering/connaisseur:v2.2.0
+  image: xoph/connaisseur:rc-v2.2.0
   imagePullPolicy: IfNotPresent
   failurePolicy: Fail  # use 'Ignore' to fail open if Connaisseur becomes unavailable
   resources:
@@ -65,15 +65,15 @@ validators:
   approve: false
 # the `default` validator is used if no validator is specified in image policy
 - name: default
-  type: notaryv1  # or other supported validator (e.g. "cosign")
-  host: notary.docker.io # in case of notaryv1, configure the notary server to be used
+  type: cosign  # or other supported validator (e.g. "cosign")
   trust_roots:
-  # # the `default` key is used if no key is specified in image policy
-  #- name: default
-  #  key: |  # enter your public key below
-  #    -----BEGIN PUBLIC KEY-----
-  #    <add your public key here>
-  #    -----END PUBLIC KEY-----
+   # the `default` key is used if no key is specified in image policy
+  - name: default
+    key: |  # enter your public key below
+      -----BEGIN PUBLIC KEY-----
+      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEa17u6rC2v6Ww5jD6ZhzE8Dcv6Osk
+      c/y5tBFE8fWUurWBTD9G++7pc6dwDmmfPyh1HyfT0S642F1PFIJz3w4+Ng==
+      -----END PUBLIC KEY-----
   #cert: |  # in case the trust data host is using a self-signed certificate
   #  -----BEGIN CERTIFICATE-----
   #  ...
@@ -105,6 +105,13 @@ validators:
       MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsx28WV7BsQfnHF1kZmpdCTTLJaWe
       d0CA+JOi8H4REuBaWSZ5zPDe468WuOJ6f71E7WFg3CVEVYHuoZt2UYbN/Q==
       -----END PUBLIC KEY-----
+  # public key for the release candicate v2.2.0
+  - name: xoph-official
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEk/39kDS92/3MAhRu4+BTWAVOY5Ri
+      LRtSpUx0DnVVQ4odJ+nhEvzvMeMHyU1WSG3rsoYaOFOMgoZFpiwjn2LqNg==
+      -----END PUBLIC KEY-----
 
 ### IMAGE POLICY ###
 # the image policy ties validators and images together whereby always only the most specific rule (pattern)
@@ -121,6 +128,10 @@ policy:
   validator: dockerhub-basics
   with:
     trust_root: securesystemsengineering-official
+- pattern: "docker.io/xoph/connaisseur:rc-*"
+  validator: dockerhub-basics
+  with:
+    trust_root: xoph-official
 
 # in detection mode, deployment will not be denied, but only prompted
 # and logged. this allows testing the functionality without
