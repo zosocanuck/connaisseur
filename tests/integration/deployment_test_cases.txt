@@ -1,0 +1,9 @@
+Testing 1 signed image deployment...;apply;tests/integration/deployments/deployment_i1.yaml;default;deployment.apps/i1-deployment created;
+Testing 1 unsigned image deployment...;apply;tests/integration/deployments/deployment_i1u1.yaml;default;denied the request: Unable to find signed digest;
+Testing 1 nonexistent image (cosign) deployment...;apply;tests/integration/deployments/deployment_i1n1.yaml;default;MANIFEST_UNKNOWN;
+Testing 2 signed images deployment...;apply;tests/integration/deployments/deployment_i2.yaml;default;deployment.apps/i2-deployment created;
+Testing 1 signed image (first) and 1 unsigned (second) image deployment...;apply;tests/integration/deployments/deployment_i2u1-2.yaml;default;denied the request: Unable to find signed digest;
+Testing 1 signed image (second) and 1 unsigned (first) image deployment...;apply;tests/integration/deployments/deployment_i2u1-1.yaml;default;denied the request: No trust data;
+Testing 2 unsigned images deployment...;apply;tests/integration/deployments/deployment_i2u2.yaml;default;denied the request:;
+Testing 2 signed images and 1 signed init container deployment...;apply;tests/integration/deployments/deployment_i2i.yaml;default;deployment.apps/i2i-deployment created;
+Testing 2 signed images and 1 unsigned init container deployment...;apply;tests/integration/deployments/deployment_i2ui.yaml;default;denied the request: Unable to find signed digest for image;

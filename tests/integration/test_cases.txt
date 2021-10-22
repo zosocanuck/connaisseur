@@ -1,0 +1,7 @@
+Testing unsigned image...;deploy;securesystemsengineering/testimage:unsigned;default;Unable to find signed digest for image docker.io/securesystemsengineering/testimage:unsigned.;INVALID
+Testing image signed under different key...;deploy;library/redis;default;Failed to verify signature of trust data root.;INVALID
+Testing signed image...;deploy;securesystemsengineering/testimage:signed;default;pod/pod-3 created;VALID
+Testing signed image with designated signer...;deploy;securesystemsengineering/testimage:special_sig;default;pod/pod-4 created;VALID
+Testing image with missing designated signer...;deploy;securesystemsengineering/testimage:wrong_signer;default;Not all required delegations have trust data for image docker.io/securesystemsengineering/testimage:wrong_signer.;INVALID
+Testing image with differing designated signers...;deploy;securesystemsengineering/testimage:double_sig;default;Found multiple signed digests for image docker.io/securesystemsengineering/testimage:double_sig.;INVALID
+Testing deployment of valid init container along with a valid container...;apply;tests/integration/valid_init_container.yaml;default;pod/connaisseur-integration-test-pod-valid-init created;VALID

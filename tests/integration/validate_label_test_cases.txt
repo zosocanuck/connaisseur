@@ -1,0 +1,3 @@
+Testing unsigned image in enabled namespace...;deploy;securesystemsengineering/testimage:unsigned;validatedns;Unable to find signed digest for image docker.io/securesystemsengineering/testimage:unsigned.;
+Testing signed image in enabled namespace...;deploy;securesystemsengineering/testimage:signed;validatedns;pod/pod-16 created;
+Testing unsigned image in unlabelled namespace...;deploy;securesystemsengineering/testimage:unsigned;connaisseur;pod/pod-17 created;
