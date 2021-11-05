@@ -35,7 +35,7 @@ single_test() {  # ID TXT TYP IMG NS OUT VAL
 
 ### MULTI TEST CASE FROM FILE ####################################
 multi_test() {
-  test_cases=$(yq e -o=json".test_cases.$1" tests/integration/cases.yaml)
+  test_cases=$(yq e -o=json ".test_cases.$1" tests/integration/cases.yaml)
   len=$(echo ${test_cases} | jq 'length')
     for i in $(seq 0 $(($len-1)))
     do
