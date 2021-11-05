@@ -123,23 +123,30 @@ class CosignValidator(ValidatorInterface):
         # Extend the OS env vars only for passing to the subprocess below
         env["DOCKER_CONFIG"] = f"/app/connaisseur-config/{self.name}/.docker/"
 
+        key = b""
         try:
             key = load_key(pubkey).to_pem()  # raises if invalid
+            pubkey_config = ["--key", "/dev/stdin"]
         except ValueError as err:
-            if re.match(r"^\w{2,20}\:\/\/[\w:\/-]{3,255}$", pubkey) is None:
+            # key is KMS reference
+            if re.match(r"^\w{2,20}\:\/\/[\w:\/-]{3,255}$", pubkey):
+                pubkey_config = ["--key", pubkey]
+            # key is email for OIDC key
+            elif re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", pubkey):
+                pubkey_config = ["--cert-email", pubkey]
+                env["COSIGN_EXPERIMENTAL"] = "1"
+            else:
                 msg = (
                     "Public key (or reference in case of KMS) '{key}' does not match "
                     "expected pattern."
                 )
                 raise InvalidFormatException(message=msg, key=pubkey) from err
-            key = b""
         cmd = [
             "/app/cosign/cosign",
             "verify",
             "--output",
             "text",
-            "--key",
-            "/dev/stdin" if key else pubkey,
+            *pubkey_config,
             image,
         ]
 
