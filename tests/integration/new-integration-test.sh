@@ -35,13 +35,13 @@ single_test() {  # ID TXT TYP IMG NS OUT VAL
 
 ### MULTI TEST CASE FROM FILE ####################################
 multi_test() {
-  test_cases=$(yq e -j ".test_cases.$1" tests/integration/cases.yaml)
+  test_cases=$(yq e -o=json".test_cases.$1" tests/integration/cases.yaml)
   len=$(echo ${test_cases} | jq 'length')
     for i in $(seq 0 $(($len-1)))
     do
         test_case=$(echo ${test_cases} | jq ".[$i]")
         ID=$(echo ${test_case} | jq -r ".id")
-        TEXT_CASE_TXT=$(echo ${test_case} | jq -r ".txt")
+        TEST_CASE_TXT=$(echo ${test_case} | jq -r ".txt")
         TYPE=$(echo ${test_case} | jq -r ".type")
         REF=$(echo ${test_case} | jq -r ".ref")
         NAMESPACE=$(echo ${test_case} | jq -r ".namespace")
@@ -111,8 +111,8 @@ regular_int_test() {
   multi_test "regular"
 
   ### EDGE CASE TAG IN RELEASES AND TARGETS ####################################
-  echo -n "[$N] Testing edge case of tag defined in both targets and release json file..."
-  DEPLOYED_SHA=$(kubectl get pod pod-3 -o yaml | yq e '.spec.containers[0].image' - | sed 's/.*sha256://')
+  echo -n "[edge1] Testing edge case of tag defined in both targets and release json file..."
+  DEPLOYED_SHA=$(kubectl get pod pod-rs -o yaml | yq e '.spec.containers[0].image' - | sed 's/.*sha256://')
   if [[ "${DEPLOYED_SHA}" != 'c5327b291d702719a26c6cf8cc93f72e7902df46547106a9930feda2c002a4a7' ]]; then
     echo -e "${FAILED}"
   else

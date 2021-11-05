@@ -3,7 +3,7 @@ test_cases:
   - id: ru
     txt: Testing unsigned image...
     type: deploy
-    ref: securesystemsengineering/testimage
+    ref: securesystemsengineering/testimage:unsigned
     namespace: default
     msg: Unable to find signed digest for image docker.io/securesystemsengineering/testimage:unsigned.
     validity: INVALID
