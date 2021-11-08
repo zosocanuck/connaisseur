@@ -76,14 +76,14 @@ test_cases:
     txt: Testing unsigned image in unlabelled namespace...
     type: deploy
     ref: securesystemsengineering/testimage:unsigned
-    namespace: connaisseur
+    namespace: default
     msg: Unable to find signed digest for image docker.io/securesystemsengineering/testimage:unsigned.
     validity: null
   - id: isu
     txt: Testing signed image in unlabelled namespace...
     type: deploy
     ref: securesystemsengineering/testimage:signed
-    namespace: connaisseur
+    namespace: default
     msg: pod/pod-isu created
     validity: null
   - id: iui
@@ -112,7 +112,7 @@ test_cases:
     txt: Testing unsigned image in unlabelled namespace...
     type: deploy
     ref: securesystemsengineering/testimage:unsigned
-    namespace: connaisseur
+    namespace: default
     msg: pod/pod-vuu created
     validity: null
   deployment:
@@ -170,7 +170,7 @@ test_cases:
     type: apply
     ref: tests/integration/deployments/deployment_i2i.yaml
     namespace: default
-    msg: deployment.apps/i2i-deployment created;
+    msg: deployment.apps/i2i-deployment created
     validity: null
   - id: d2s1ui
     txt: Testing 2 signed images and 1 unsigned init container deployment...
