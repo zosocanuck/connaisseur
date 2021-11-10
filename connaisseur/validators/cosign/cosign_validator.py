@@ -129,16 +129,13 @@ class CosignValidator(ValidatorInterface):
         env["DOCKER_CONFIG"] = f"/app/connaisseur-config/{self.name}/.docker/"
 
         try:
-            #key = load_key(pubkey).to_pem()  # raises if invalid
-            ecckey = ECC.import_key(pubkey) #raises if invalid
+            ecckey = ECC.import_key(pubkey) # Raises if public key is RSA or is invalid
             key = ecckey.export_key(format='PEM')
         except ValueError as err:
-            #msg = ("Error is {err.args[0]}")
-            #raise InvalidFormatException(message=msg, key=pubkey) from err
             key = b""
+            # Handle exception if public key used for verification is RSA
             if err.args[0] == "Unsupported ECC purpose (OID: 1.2.840.113549.1.1.1)":
                 rsakey = RSA.import_key(pubkey) 
-                #key = rsakey.export_key(format='PEM').decode('utf-8')
                 key = rsakey.export_key(format='PEM')
             elif re.match(r"^\w{2,20}\:\/\/[\w:\/-]{3,255}$", pubkey) is None:
                 msg = (
