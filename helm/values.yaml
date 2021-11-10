@@ -1,8 +1,8 @@
 # configure Connaisseur deployment
 deployment:
   replicasCount: 3
-  image: securesystemsengineering/connaisseur:v2.2.0
-  imagePullPolicy: IfNotPresent
+  image: zosocanuck/connaisseur:v2.2.0
+  imagePullPolicy: Never
   failurePolicy: Fail  # use 'Ignore' to fail open if Connaisseur becomes unavailable
   resources:
     limits:
@@ -106,7 +106,15 @@ validators:
       MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsx28WV7BsQfnHF1kZmpdCTTLJaWe
       d0CA+JOi8H4REuBaWSZ5zPDe468WuOJ6f71E7WFg3CVEVYHuoZt2UYbN/Q==
       -----END PUBLIC KEY-----
-
+- name: customvalidator
+  type: "cosign"
+  trust_roots:
+  - name: default
+    key: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApBKEg/iMjuDrzIaw6nEOy/e7QtXtfTuk5lERK4qfVsz4b7PdQjT2SGlxY3IVdwnAgkMYovDpB4plkv3MJZcdAWzRHwLnPeVpPa6G/B27GebP+yKQGc9b0nqH8ncpcrqHAn2PnwRAMxALTV7JoIm9J44mwKTDO5qpZhOLgX2ri0dBz0iFEGlf8vjMyyVZs1bzZ9xrrYZx//7+0CCDp+3ty86fEo8K6N/WbOKt1ELWkjCVAaoOOmktXdWikRRjxdcFNuRtnjkSxUA7BM8FHALPwp8QExtLZYk2OhrCSiAtisLo2cjlH7OzxNS3/yDdgFixJ2ikySi50YqL7Mrinyo3hwIDAQAB
+        -----END PUBLIC KEY-----
+   
 ### IMAGE POLICY ###
 # the image policy ties validators and images together whereby always only the most specific rule (pattern)
 # is applied. specify if and how images should be validated by which validator via the validator name.
@@ -122,6 +130,9 @@ policy:
   validator: dockerhub-basics
   with:
     trust_root: securesystemsengineering-official
+- pattern: "docker.io/zosocanuck/*"
+  validator: customvalidator
+
 
 # in detection mode, deployment will not be denied, but only prompted
 # and logged. this allows testing the functionality without

@@ -13,7 +13,8 @@ from connaisseur.exceptions import (
     UnexpectedCosignData,
     InvalidFormatException,
 )
-from connaisseur.crypto import load_key
+#from connaisseur.crypto import load_key
+from Crypto.PublicKey import RSA,ECC
 
 
 class CosignValidator(ValidatorInterface):
@@ -128,15 +129,23 @@ class CosignValidator(ValidatorInterface):
         env["DOCKER_CONFIG"] = f"/app/connaisseur-config/{self.name}/.docker/"
 
         try:
-            key = load_key(pubkey).to_pem()  # raises if invalid
+            #key = load_key(pubkey).to_pem()  # raises if invalid
+            ecckey = ECC.import_key(pubkey) #raises if invalid
+            key = ecckey.export_key(format='PEM')
         except ValueError as err:
-            if re.match(r"^\w{2,20}\:\/\/[\w:\/-]{3,255}$", pubkey) is None:
+            #msg = ("Error is {err.args[0]}")
+            #raise InvalidFormatException(message=msg, key=pubkey) from err
+            key = b""
+            if err.args[0] == "Unsupported ECC purpose (OID: 1.2.840.113549.1.1.1)":
+                rsakey = RSA.import_key(pubkey) 
+                #key = rsakey.export_key(format='PEM').decode('utf-8')
+                key = rsakey.export_key(format='PEM')
+            elif re.match(r"^\w{2,20}\:\/\/[\w:\/-]{3,255}$", pubkey) is None:
                 msg = (
                     "Public key (or reference in case of KMS) '{key}' does not match "
-                    "expected pattern."
+                    "expected pattern TESTING."
                 )
-                raise InvalidFormatException(message=msg, key=pubkey) from err
-            key = b""
+                raise InvalidFormatException(message=msg, key=pubkey) from err    
         cmd = [
             "/app/cosign/cosign",
             "verify",
