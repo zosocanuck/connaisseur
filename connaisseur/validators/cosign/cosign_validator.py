@@ -130,7 +130,7 @@ class CosignValidator(ValidatorInterface):
 
         try:
             ecckey = ECC.import_key(pubkey) # Raises if public key is RSA or is invalid
-            key = ecckey.export_key(format='PEM')
+            key = (ecckey.export_key(format='PEM')).encode()
         except ValueError as err:
             key = b""
             # Handle exception if public key used for verification is RSA

@@ -21,8 +21,6 @@ WORKDIR /go/cosign
 COPY docker/release-cosign.pub /go/cosign/release-cosign.pub
 
 RUN apt-get update \
- && apt-get install -y gcc \
- && apt-get install -y python-pip \
  && apt-get install -y --no-install-recommends openssl=1.1.\* libssl1.1=1.1.\* ca-certificates=20200601\* wget=1.20.\* \
  && wget -nv https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-amd64 \
  && wget -nv https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-amd64.sig \

@@ -112,9 +112,14 @@ validators:
   - name: default
     key: |
         -----BEGIN PUBLIC KEY-----
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApBKEg/iMjuDrzIaw6nEOy/e7QtXtfTuk5lERK4qfVsz4b7PdQjT2SGlxY3IVdwnAgkMYovDpB4plkv3MJZcdAWzRHwLnPeVpPa6G/B27GebP+yKQGc9b0nqH8ncpcrqHAn2PnwRAMxALTV7JoIm9J44mwKTDO5qpZhOLgX2ri0dBz0iFEGlf8vjMyyVZs1bzZ9xrrYZx//7+0CCDp+3ty86fEo8K6N/WbOKt1ELWkjCVAaoOOmktXdWikRRjxdcFNuRtnjkSxUA7BM8FHALPwp8QExtLZYk2OhrCSiAtisLo2cjlH7OzxNS3/yDdgFixJ2ikySi50YqL7Mrinyo3hwIDAQAB
+        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyyWAk9WaA9OkeZfGUnvW4Nb8Phf4
+        5p3r1IjdBLIkbYxq7ZSyj9YDihsmDvrDc4bAijgAx/RAyl0u3ElBurXLfQ==
         -----END PUBLIC KEY-----
-   
+        
+# RSA public key
+#        -----BEGIN PUBLIC KEY-----
+#        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApBKEg/iMjuDrzIaw6nEOy/e7QtXtfTuk5lERK4qfVsz4b7PdQjT2SGlxY3IVdwnAgkMYovDpB4plkv3MJZcdAWzRHwLnPeVpPa6G/B27GebP+yKQGc9b0nqH8ncpcrqHAn2PnwRAMxALTV7JoIm9J44mwKTDO5qpZhOLgX2ri0dBz0iFEGlf8vjMyyVZs1bzZ9xrrYZx//7+0CCDp+3ty86fEo8K6N/WbOKt1ELWkjCVAaoOOmktXdWikRRjxdcFNuRtnjkSxUA7BM8FHALPwp8QExtLZYk2OhrCSiAtisLo2cjlH7OzxNS3/yDdgFixJ2ikySi50YqL7Mrinyo3hwIDAQAB
+#        -----END PUBLIC KEY-----   
 ### IMAGE POLICY ###
 # the image policy ties validators and images together whereby always only the most specific rule (pattern)
 # is applied. specify if and how images should be validated by which validator via the validator name.
